@@ -1,78 +1,31 @@
-import React, { useState } from 'react';
-import { PoweroffOutlined, SyncOutlined } from '@ant-design/icons';
-import { Button, Flex } from 'antd';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+
+// Import các component pages (sẽ tạo sau)
+import LoginPage from './pages/login';
+// import Dashboard from './pages/Dashboard';
+// import Profile from './pages/Profile';
+// import Settings from './pages/Settings';
+// import Users from './pages/Users';
+
+// Temporary placeholder components
+const Dashboard = () => <div>Dashboard Page</div>;
+const Profile = () => <div>Profile Page</div>;
+const Settings = () => <div>Settings Page</div>;
+const Users = () => <div>Users Page</div>;
 
 const App: React.FC = () => {
-  const [loadings, setLoadings] = useState<boolean[]>([]);
-
-  const enterLoading = (index: number) => {
-    console.log('Start loading:', index);
-
-    setLoadings((prevLoadings) => {
-      const newLoadings = [...prevLoadings];
-      newLoadings[index] = true;
-      return newLoadings;
-    });
-
-    setTimeout(() => {
-      setLoadings((prevLoadings) => {
-        const newLoadings = [...prevLoadings];
-        newLoadings[index] = false;
-        return newLoadings;
-      });
-    }, 3000);
-  };
-
   return (
-    <Flex gap="small" vertical>
-      <Flex gap="small" align="center" wrap>
-        <Button type="primary" loading>
-          Loading
-        </Button>
-        <Button type="primary" size="small" loading>
-          Loading
-        </Button>
-        <Button type="primary" icon={<PoweroffOutlined />} loading />
-        <Button type="primary" loading={{ icon: <SyncOutlined spin /> }}>
-          Loading Icon
-        </Button>
-      </Flex>
-      <Flex gap="small" wrap>
-        <Button type="primary" loading={loadings[0]} onClick={() => enterLoading(0)}>
-          Icon Start
-        </Button>
-        <Button
-          type="primary"
-          loading={loadings[2]}
-          onClick={() => enterLoading(2)}
-          iconPosition="end"
-        >
-          Icon End
-        </Button>
-        <Button
-          type="primary"
-          icon={<PoweroffOutlined />}
-          loading={loadings[1]}
-          onClick={() => enterLoading(1)}
-        >
-          Icon Replace
-        </Button>
-        <Button
-          type="primary"
-          icon={<PoweroffOutlined />}
-          loading={loadings[3]}
-          onClick={() => enterLoading(3)}
-        />
-        <Button
-          type="primary"
-          icon={<PoweroffOutlined />}
-          loading={loadings[3] && { icon: <SyncOutlined spin /> }}
-          onClick={() => enterLoading(3)}
-        >
-          Loading Icon
-        </Button>
-      </Flex>
-    </Flex>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/users" element={<Users />} />
+      </Routes>
+    </Router>
   );
 };
 

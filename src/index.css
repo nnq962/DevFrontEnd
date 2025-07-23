@@ -1,5 +1,85 @@
+@import "tailwindcss";
+
+/* Reset lại các style có thể xung đột giữa Tailwind và Ant Design */
+.ant-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.ant-btn .anticon {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
+/* Đảm bảo icon loading không bị lệch */
+.ant-btn .ant-btn-loading-icon {
+  display: inline-flex !important;
+  align-items: center !important;
+  vertical-align: middle !important;
+}
+
+/* Fix cho các icon động */
+.ant-btn .anticon-spin {
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+/* Áp dụng font Lexend cho tất cả các component của Ant Design */
+.ant-btn,
+.ant-input,
+.ant-select,
+.ant-typography,
+.ant-typography h1,
+.ant-typography h2,
+.ant-typography h3,
+.ant-typography h4,
+.ant-typography h5,
+.ant-typography h6,
+.ant-typography p,
+.ant-typography div,
+.ant-typography span,
+.ant-menu,
+.ant-dropdown,
+.ant-tooltip,
+.ant-popover,
+.ant-modal,
+.ant-drawer,
+.ant-notification,
+.ant-message,
+.ant-table,
+.ant-form,
+.ant-card,
+.ant-list,
+.ant-descriptions,
+.ant-timeline,
+.ant-steps,
+.ant-breadcrumb,
+.ant-pagination,
+.ant-tabs,
+.ant-collapse,
+.ant-tree,
+.ant-checkbox,
+.ant-radio,
+.ant-switch,
+.ant-slider,
+.ant-rate,
+.ant-upload,
+.ant-progress,
+.ant-tag,
+.ant-badge,
+.ant-avatar,
+.ant-alert,
+.ant-spin,
+.ant-anchor,
+.ant-back-top,
+.ant-divider {
+  font-family: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif !important;
+}
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Lexend', system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -24,10 +104,21 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  padding: 0;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Lexend', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif !important;
+}
+
+/* Đảm bảo tất cả element con cũng kế thừa font */
+* {
+  font-family: inherit !important;
+}
+
+/* Đảm bảo root div chiếm full height */
+#root {
+  min-height: 100vh;
+  width: 100%;
 }
 
 h1 {
@@ -35,7 +126,8 @@ h1 {
   line-height: 1.1;
 }
 
-button {
+/* Chỉ áp dụng cho button thông thường, không phải Ant Design */
+button:not(.ant-btn) {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -46,11 +138,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+button:not(.ant-btn):hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+button:not(.ant-btn):focus,
+button:not(.ant-btn):focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -62,7 +154,7 @@ button:focus-visible {
   a:hover {
     color: #747bff;
   }
-  button {
+  button:not(.ant-btn) {
     background-color: #f9f9f9;
   }
 }
