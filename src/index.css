@@ -93,12 +93,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+/* Chỉ áp dụng cho link thông thường, không phải Ant Design */
+a:not(.ant-typography a):not([class*="text-"]) {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
-a:hover {
+a:not(.ant-typography a):not([class*="text-"]):hover {
   color: #535bf2;
 }
 
@@ -119,6 +120,17 @@ body {
 #root {
   min-height: 100vh;
   width: 100%;
+}
+
+/* Override màu link để sử dụng màu mặc định của Ant Design */
+.ant-card a {
+  color: #1677ff !important;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.ant-card a:hover {
+  color: #4096ff !important;
 }
 
 h1 {
@@ -146,12 +158,91 @@ button:not(.ant-btn):focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Ẩn màu nền autofill của trình duyệt - tất cả các trường hợp */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-webkit-autofill:focus-visible {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Cho Ant Design input - bao gồm tất cả selector */
+.ant-input:-webkit-autofill,
+.ant-input:-webkit-autofill:hover,
+.ant-input:-webkit-autofill:focus,
+.ant-input:-webkit-autofill:active,
+.ant-input:-webkit-autofill:focus-visible,
+.ant-input[data-user-invalid]:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Cho input trong Form.Item */
+.ant-form-item .ant-input:-webkit-autofill,
+.ant-form-item .ant-input:-webkit-autofill:hover,
+.ant-form-item .ant-input:-webkit-autofill:focus,
+.ant-form-item .ant-input:-webkit-autofill:active,
+.ant-form-item .ant-input:-webkit-autofill:focus-visible {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Cho input password của Ant Design */
+.ant-input-password input:-webkit-autofill,
+.ant-input-password input:-webkit-autofill:hover,
+.ant-input-password input:-webkit-autofill:focus,
+.ant-input-password input:-webkit-autofill:active,
+.ant-input-password input:-webkit-autofill:focus-visible {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  -webkit-text-fill-color: inherit !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/* Cho dark mode (nếu có) */
+@media (prefers-color-scheme: dark) {
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active,
+  input:-webkit-autofill:focus-visible,
+  .ant-input:-webkit-autofill,
+  .ant-input:-webkit-autofill:hover,
+  .ant-input:-webkit-autofill:focus,
+  .ant-input:-webkit-autofill:active,
+  .ant-input:-webkit-autofill:focus-visible,
+  .ant-input[data-user-invalid]:-webkit-autofill,
+  .ant-form-item .ant-input:-webkit-autofill,
+  .ant-form-item .ant-input:-webkit-autofill:hover,
+  .ant-form-item .ant-input:-webkit-autofill:focus,
+  .ant-form-item .ant-input:-webkit-autofill:active,
+  .ant-form-item .ant-input:-webkit-autofill:focus-visible,
+  .ant-input-password input:-webkit-autofill,
+  .ant-input-password input:-webkit-autofill:hover,
+  .ant-input-password input:-webkit-autofill:focus,
+  .ant-input-password input:-webkit-autofill:active,
+  .ant-input-password input:-webkit-autofill:focus-visible {
+    -webkit-box-shadow: 0 0 0 30px #141414 inset !important;
+    -webkit-text-fill-color: inherit !important;
+    background-color: transparent !important;
+    transition: background-color 5000s ease-in-out 0s !important;
+  }
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
   }
-  a:hover {
+  a:not(.ant-typography a):not([class*="text-"]):hover {
     color: #747bff;
   }
   button:not(.ant-btn) {
