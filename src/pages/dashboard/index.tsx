@@ -1,216 +1,308 @@
-import React from 'react';
-import {
-    Card,
-    Avatar,
-    Button,
-    Typography,
-    Row,
-    Col,
-    Badge,
-    Space,
-    Divider
-} from 'antd';
-import {
-    UserOutlined,
-    ClockCircleOutlined,
-    CheckCircleOutlined,
-    DownloadOutlined,
-    TeamOutlined,
-    SettingOutlined,
-    MessageOutlined,
-    WifiOutlined
+import React, { useState, useEffect } from 'react';
+import { 
+  MailOutlined, 
+  SettingOutlined,
+  UserOutlined,
+  MenuOutlined,
+  ClockCircleOutlined,
+  InfoCircleOutlined,
+  ExportOutlined,
+  UsergroupAddOutlined,
 } from '@ant-design/icons';
-import { useCustomNotification } from '../../components/notification';
+import type { MenuProps } from 'antd';
+import { Menu, Button, Drawer, Avatar, Typography } from 'antd';
 
+const { Text } = Typography;
 
-const { Title, Text } = Typography;
+type MenuItem = Required<MenuProps>['items'][number];
 
-const DashboardPage: React.FC = () => {
-    // Dữ liệu mẫu tĩnh
-    const mockUserInfo = {
-        user_id: 'EDULIVE29',
-        username: 'nnq962',
-        name: 'Nguyễn Ngọc Quyết',
-        role: 'super_admin',
-        avatar_file: 'IMG_0101 (1).jpg'
+const items: MenuItem[] = [
+  {
+    key: 'dashboard',
+    label: 'Thông tin cơ bản',
+    icon: <InfoCircleOutlined />,
+  },
+  {
+    key: 'users',
+    label: 'Theo dõi chấm công',
+    icon: <UserOutlined />,
+  },
+  {
+    key: 'messages',
+    label: 'Phê duyệt',
+    icon: <MailOutlined />,
+  },
+  {
+    key: 'applications',
+    label: 'Xuất dữ liệu',
+    icon: <ExportOutlined />,
+  },
+  {
+    key: 'reports',
+    label: 'Quản lý người dùng',
+    icon: <UsergroupAddOutlined />,
+  },
+  {
+    key: 'settings',
+    label: 'Cài đặt',
+    icon: <SettingOutlined />,
+  }
+];
+
+const Dashboard: React.FC = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [logoutLoading, setLogoutLoading] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768);
     };
 
-    // Thêm state cho số lượng phê duyệt
-    const pendingApprovals = 2132130; // Số lượng phê duyệt chờ xử lý
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
 
-    const menuItems = [
-        {
-            title: 'Theo dõi chấm công',
-            description: 'Xem lịch sử và gửi yêu cầu các về chấm công',
-            icon: <ClockCircleOutlined style={{ fontSize: '24px', color: '#1677ff' }} />
-        },
-        {
-            title: 'Phê duyệt',
-            description: 'Phê duyệt lỗi chấm công và nghỉ phép',
-            icon: <CheckCircleOutlined style={{ fontSize: '24px', color: '#52c41a' }} />,
-            badge: pendingApprovals // Thêm badge cho card phê duyệt
-        },
-        {
-            title: 'Xuất dữ liệu',
-            description: 'Xuất bảng excel báo cáo chấm công',
-            icon: <DownloadOutlined style={{ fontSize: '24px', color: '#fa8c16' }} />
-        },
-        {
-            title: 'Quản lý người dùng',
-            description: 'Quản lý tải khoản của người dùng',
-            icon: <TeamOutlined style={{ fontSize: '24px', color: '#722ed1' }} />
-        },
-        {
-            title: 'Cài đặt',
-            description: 'Tuỳ chỉnh thông tin cá nhân',
-            icon: <SettingOutlined style={{ fontSize: '24px', color: '#13c2c2' }} />
-        },
-        {
-            title: 'Feedback',
-            description: 'Góp ý cải thiện hệ thống',
-            icon: <MessageOutlined style={{ fontSize: '24px', color: '#eb2f96' }} />
-        }
-    ];
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
-    return (
-        <div className="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
-            {/* Bỏ phần CSS animation bounce */}
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('Đã click menu: ', e);
+    if (isMobile) {
+      setDrawerVisible(false);
+    }
+  };
 
-            <div className="w-full max-w-7xl">
-                <Row gutter={[24, 24]}>
-                    {/* Card thông tin tổng quan */}
-                    <Col xs={24} lg={8}>
-                        <Card
-                            title="Thông tin tổng quan"
-                            className="h-full"
-                            extra={
-                                <Badge
-                                    status="success"
-                                    text="Hoạt động"
-                                />
-                            }
-                        >
-                            <div className="text-center mb-4">
-                                <Avatar
-                                    size={80}
-                                    icon={<UserOutlined />}
-                                    className="mb-3"
-                                />
-                                <div>
-                                    <Title level={4} className="my-2">
-                                        {mockUserInfo.name}
-                                    </Title>
-                                    <Text type="secondary">@{mockUserInfo.username}</Text>
-                                </div>
-                            </div>
+  const sidebarContent = (
+    <div style={{ paddingTop: isMobile ? '70px' : '0' }}>
+      <Menu
+        onClick={onClick}
+        style={{ 
+          width: '100%', 
+          height: '100%', 
+          borderRight: 0,
+          backgroundColor: 'transparent'
+        }}
+        defaultSelectedKeys={['dashboard']}
+        mode="inline"
+        items={items}
+        theme="light"
+      />
+    </div>
+  );
 
-                            <Divider />
+  return (
+    <div style={{ display: 'flex', height: '100vh', backgroundColor: '#f0f2f5' }}>
+      {/* Desktop Sidebar */}
+      {!isMobile && (
+        <div 
+          style={{ 
+            width: 225, 
+            backgroundColor: '#fff',
+            boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)',
+            borderRadius: '8px',
+            margin: '8px',
+            overflow: 'hidden',
+            position: 'relative',
+            zIndex: 100,
+            display: 'flex',
+            flexDirection: 'column'
+          }}
+        >
+          {/* Header with title */}
+          <div style={{ 
+            padding: '16px', 
+            borderBottom: '1px solid #f0f0f0',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <ClockCircleOutlined style={{ 
+              fontSize: '18px', 
+              color: '#1890ff' 
+            }} />
+            <span style={{ 
+              color: '#1890ff',
+              fontWeight: 600,
+              fontSize: '16px'
+            }}>
+              Hệ thống chấm công
+            </span>
+          </div>
+          
+          {/* Menu */}
+          <div style={{ flex: 1, overflow: 'auto' }}>
+            <Menu
+              onClick={onClick}
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                borderRight: 0,
+                backgroundColor: 'transparent'
+              }}
+              defaultSelectedKeys={['dashboard']}
+              mode="inline"
+              items={items}
+              theme="light"
+            />
+          </div>
 
-                            <Space direction="vertical" className="w-full">
-                                <div className="flex justify-between items-center">
-                                    <Text>Vai trò:</Text>
-                                    <Text strong style={{ color: '#ff4d4f' }}>
-                                        Super Admin
-                                    </Text>
-                                </div>
-
-                                <div className="flex justify-between items-center">
-                                    <Text>Trạng thái máy chấm công:</Text>
-                                    <Space>
-                                        <WifiOutlined className="text-green-500" />
-                                        <Text className="text-green-500">
-                                            Hoạt động
-                                        </Text>
-                                    </Space>
-                                </div>
-
-                                <div className="flex justify-between items-center">
-                                    <Text>ID người dùng:</Text>
-                                    <Text code>{mockUserInfo.user_id}</Text>
-                                </div>
-                            </Space>
-
-                            <Divider />
-
-                            <Button
-                                type="primary"
-                                danger
-                                block
-                                size="large"
-                                iconPosition="end"
-                            >
-                                Đăng xuất
-                            </Button>
-                        </Card>
-                    </Col>
-
-                    {/* 6 Card chức năng - Chiều cao bằng card lớn */}
-                    <Col xs={24} lg={16}>
-                        <div className="h-full">
-                            <Row gutter={[16, 16]} className="h-full">
-                                {menuItems.map((item, index) => (
-                                    <Col xs={24} sm={12} key={index}>
-                                        {/* Wrap Card bằng Badge.Ribbon nếu có badge */}
-                                        {item.badge && item.badge > 0 ? (
-                                            <Badge.Ribbon text={item.badge} color="red">
-                                                <Card
-                                                    hoverable
-                                                    className="h-40 transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg"
-                                                    styles={{
-                                                        body: {
-                                                            padding: '20px',
-                                                            display: 'flex',
-                                                            flexDirection: 'column',
-                                                            justifyContent: 'center',
-                                                            height: '100%'
-                                                        }
-                                                    }}
-                                                >
-                                                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                                                        {item.icon}
-                                                        <Title level={4} style={{ margin: '0 0 0 12px', flex: 1 }}>
-                                                            {item.title}
-                                                        </Title>
-                                                    </div>
-                                                    <Text type="secondary" style={{ fontSize: '13px', lineHeight: '1.5' }}>
-                                                        {item.description}
-                                                    </Text>
-                                                </Card>
-                                            </Badge.Ribbon>
-                                        ) : (
-                                            <Card
-                                                hoverable
-                                                className="h-40 transition-all duration-300 ease-in-out cursor-pointer hover:shadow-lg"
-                                                styles={{
-                                                    body: {
-                                                        padding: '20px',
-                                                        display: 'flex',
-                                                        flexDirection: 'column',
-                                                        justifyContent: 'center',
-                                                        height: '100%'
-                                                    }
-                                                }}
-                                            >
-                                                <div style={{ display: 'flex', alignItems: 'center', marginBottom: '12px' }}>
-                                                    {item.icon}
-                                                    <Title level={4} style={{ margin: '0 0 0 12px', flex: 1 }}>
-                                                        {item.title}
-                                                    </Title>
-                                                </div>
-                                                <Text type="secondary" style={{ fontSize: '13px', lineHeight: '1.5' }}>
-                                                    {item.description}
-                                                </Text>
-                                            </Card>
-                                        )}
-                                    </Col>
-                                ))}
-                            </Row>
-                        </div>
-                    </Col>
-                </Row>
+          {/* Bottom User Info & Logout */}
+          <div style={{
+            borderTop: '1px solid #f0f0f0',
+            padding: '16px',
+            backgroundColor: '#fafafa'
+          }}>
+            {/* User Info */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              marginBottom: '12px'
+            }}>
+              <Avatar 
+                size={40} 
+                style={{ 
+                  backgroundColor: '#1890ff',
+                  fontSize: '16px'
+                }}
+                icon={<UserOutlined />}
+              />
+              <div style={{ flex: 1 }}>
+                <Text strong style={{ 
+                  fontSize: '14px',
+                  color: '#262626',
+                  display: 'block'
+                }}>
+                  Nguyễn Văn A
+                </Text>
+                <Text style={{ 
+                  fontSize: '12px',
+                  color: '#8c8c8c'
+                }}>
+                  Admin
+                </Text>
+              </div>
             </div>
+            
+            {/* Logout Button */}
+            <Button
+              type="primary"
+              loading={logoutLoading}
+              onClick={() => {
+                setLogoutLoading(true);
+                // Simulate logout process
+                setTimeout(() => {
+                  console.log('Đăng xuất');
+                  setLogoutLoading(false);
+                }, 2000);
+              }}
+              iconPosition="end"
+              style={{
+                width: '100%',
+                height: '36px',
+                backgroundColor: '#ff4d4f',
+                borderColor: '#ff4d4f',
+                color: '#fff'
+              }}
+            >
+              Đăng xuất
+            </Button>
+          </div>
         </div>
-    );
+      )}
+
+      {/* Mobile Toggle Button */}
+      {isMobile && (
+        <Button
+          type="primary"
+          icon={<MenuOutlined />}
+          onClick={() => setDrawerVisible(!drawerVisible)}
+          style={{
+            position: 'fixed',
+            top: 16,
+            left: 16,
+            zIndex: 1001,
+            borderRadius: '8px',
+            boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)',
+            width: 40,
+            height: 40,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        />
+      )}
+
+      {/* Mobile Drawer */}
+      {isMobile && (
+        <Drawer
+          placement="left"
+          onClose={() => setDrawerVisible(false)}
+          open={drawerVisible}
+          width={210}
+          styles={{
+            body: { padding: 0 },
+            header: { display: 'none' }
+          }}
+          closable={false}
+        >
+          {sidebarContent}
+        </Drawer>
+      )}
+      
+      {/* Content area */}
+      <div style={{ 
+        flex: 1, 
+        padding: isMobile ? '74px 16px 16px 16px' : '16px 8px 8px 8px',
+        backgroundColor: '#f0f2f5',
+        overflow: 'auto'
+      }}>
+        <div style={{
+          backgroundColor: '#fff',
+          borderRadius: '8px',
+          padding: '24px',
+          boxShadow: '0 2px 8px 0 rgba(0, 0, 0, 0.15)',
+          minHeight: 'calc(100vh - 32px)'
+        }}>
+          <h1 style={{ 
+            margin: '0 0 16px 0',
+            color: '#262626',
+            fontSize: '24px',
+            fontWeight: 600
+          }}>
+            Dashboard Content
+          </h1>
+          <p style={{ 
+            color: '#595959',
+            fontSize: '16px',
+            lineHeight: '1.6'
+          }}>
+            Chào mừng bạn đến với trang quản trị. Nội dung chính sẽ hiển thị ở đây với giao diện đẹp và responsive.
+          </p>
+          
+          {/* Demo cards */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gap: '16px',
+            marginTop: '24px'
+          }}>
+            {[1, 2, 3].map(i => (
+              <div key={i} style={{
+                backgroundColor: '#fafafa',
+                padding: '20px',
+                borderRadius: '8px',
+                border: '1px solid #f0f0f0'
+              }}>
+                <h4 style={{ margin: '0 0 8px 0', color: '#1890ff' }}>Card {i}</h4>
+                <p style={{ margin: 0, color: '#8c8c8c' }}>Nội dung demo card {i}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
-export default DashboardPage;
+export default Dashboard;
