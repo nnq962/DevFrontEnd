@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, Card, Typography } from 'antd';
-import { useCustomNotification } from '../../components/notification';
+import { useCustomNotification } from '../../components/common/notification';
 import { loginService } from '../../services/login';
 import type { LoginRequest } from '../../services/login';
 
@@ -49,9 +49,9 @@ const LoginPage: React.FC = () => {
           localStorage.setItem('session_expires', response.data.session_expires);
         }
 
-        // Redirect đến dashboard sau 2 giây
+        // Redirect đến basic-info sau 2 giây
         setTimeout(() => {
-          window.location.href = '/dashboard';
+          window.location.href = '/basic-info';
         }, 2000);
 
       } else {
