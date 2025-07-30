@@ -1,13 +1,16 @@
 import React from 'react';
-import { Card } from 'antd';
 import CalendarComponent from './calendar';
+import OverviewCard from './overview';
 
 const FollowShift: React.FC = () => {
   return (
     <div className="follow-shift-page">
-      <Card title="Lịch chấm công chi tiết" bordered={false}>
+      {/* Card thống kê tổng quan */}
+      <OverviewCard />
+      
+      {/* Card lịch chấm công */}
         <CalendarComponent />
-      </Card>
+      
     </div>
   );
 };

@@ -190,7 +190,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isMobile }) => {
             position: 'relative',
             zIndex: 100,
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)'
           }}
         >
           {/* Header with title */}
