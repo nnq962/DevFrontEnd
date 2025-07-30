@@ -6,9 +6,9 @@ import ElevatedCard from '../../components/common/elevated-card';
 const OverviewCard: React.FC = () => {
   // Dữ liệu mẫu - bạn có thể thay thế bằng API call
   const attendanceData = [
-    { title: 'Ngày làm việc', value: '22 ngày', color: '#52c41a' },
-    { title: 'Đã điểm danh', value: '20 ngày', color: '#52c41a' },
-    { title: 'Đúng giờ', value: '15 lần', color: '#1890ff' },
+    { title: 'Ngày làm việc', value: '22 ngày', color: '#1890ff' },
+    { title: 'Đã điểm danh', value: '20 ngày', color: '#13c2c2' },
+    { title: 'Đúng giờ', value: '15 lần', color: '#52c41a' },
     { title: 'Đi muộn (8:10-8:30)', value: '3 lần', color: '#fa8c16' },
     { title: 'Đi muộn (sau 8:30)', value: '2 lần', color: '#ff4d4f' },
     { title: 'Về sớm', value: '1 lần', color: '#fa8c16' },

@@ -463,3 +463,9 @@ input:-webkit-autofill:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

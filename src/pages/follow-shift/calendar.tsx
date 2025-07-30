@@ -131,7 +131,6 @@ const CalendarComponent: React.FC = () => {
         </div>
       }
       elevation="medium"
-      style={{ marginTop: '24px' }}
     >
       <Calendar 
         cellRender={cellRender} 
